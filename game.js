@@ -60,10 +60,10 @@
   /* ─────────────── ASSET LOADER ─────────────── */
   const assets = {};
   const assetList = [
-    { key: 'shiba',      src: 'assets/asteroid_shiba.png' },
-    { key: 'mars',       src: 'assets/mars_planet.png' },
-    { key: 'ship',       src: 'assets/spaceship_rocket.png' },
-    { key: 'background', src: 'assets/game_background.png' }
+    { key: 'shiba',      src: 'assets/asteroid_shiba.png?v=2' },
+    { key: 'mars',       src: 'assets/mars_planet.png?v=2' },
+    { key: 'ship',       src: 'assets/spaceship_rocket.png?v=2' },
+    { key: 'background', src: 'assets/game_background.png?v=2' }
   ];
 
   function loadAssets() {
@@ -750,12 +750,20 @@
     updateParticles(dt);
 
     /* Shiba walks toward ship */
-    const targetX = introShipX - 70;
+    const targetX = introShipX - 30;
     if (introPhase === 0) {
       introShibaX += 65 * dt;
       introShibaY = GAME_H * 0.58 + Math.sin(sceneTimer * 4) * 5; /* bobbing */
+      if (introShibaX >= targetX - 40) {
+        /* Start entering phase */
+        introPhase = 0.5; 
+      }
+    }
+    
+    /* Boarding animation */
+    if (introPhase === 0.5) {
+      introShibaX += 30 * dt; /* Slow down as entering */
       if (introShibaX >= targetX) {
-        introShibaX = targetX;
         introPhase = 1;
         flashAlpha = 1;
         shakeCamera(6, 0.4);
@@ -821,12 +829,21 @@
       ctx.restore();
     }
 
-    /* Shiba walking */
-    if (introPhase === 0 && assets.shiba) {
-      const bobScale = 1 + 0.02 * Math.sin(sceneTimer * 8);
+    /* Shiba walking or entering */
+    if (introPhase < 1 && assets.shiba) {
+      let bobScale = 1 + 0.02 * Math.sin(sceneTimer * 8);
+      let enterScale = 1;
+      
+      /* Shrink character as it enters the ship */
+      if (introPhase === 0.5) {
+        const targetX = introShipX - 30;
+        const progress = Math.max(0, 1 - (targetX - introShibaX) / 40);
+        enterScale = 1 - progress * 0.9; /* Shrink to 10% size */
+      }
+      
       ctx.save();
       ctx.translate(introShibaX, introShibaY);
-      ctx.scale(bobScale, bobScale);
+      ctx.scale(bobScale * enterScale, bobScale * enterScale);
       ctx.drawImage(assets.shiba, -30, -30, 60, 60);
       ctx.restore();
     }
