@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Asteroid: Mission to Mars</title>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Asteroid: Mission to Mars">
+  <meta property="og:description" content="Join Asteroid — the brave Shiba Inu astronaut designed by Liv Perrotto — on an epic journey through space to reach Mars! Dodge asteroids, survive the void, and land on the Red Planet.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/asteroid_shiba.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Orbitron:wght@400;600;700;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="gameCanvas"></canvas>
+
+  <!-- ═══════════ START SCREEN ═══════════ -->
+  <div id="startScreen" class="overlay">
+    <div class="overlay-content start-content">
+      <h1 class="game-title">ASTEROID</h1>
+      <h2 class="game-subtitle">Mission to Mars</h2>
+      <p class="memorial">In loving memory of Liv Perrotto ⭐</p>
+      <div id="loadingBar" class="loading-bar">
+        <div id="loadingFill" class="loading-fill"></div>
+        <span id="loadingText" class="loading-text">Loading assets...</span>
+      </div>
+      <button id="playBtn" class="btn btn-play" style="display:none;">▶ PLAY</button>
+      <p class="credit">The Asteroid character was designed by Liv Perrotto</p>
+    </div>
+  </div>
+
+  <!-- ═══════════ HUD ═══════════ -->
+  <div id="hud" class="hud hidden">
+    <div class="hud-item">
+      <span class="hud-label">DISTANCE</span>
+      <span id="hudDistance" class="hud-value">225,000 km</span>
+    </div>
+    <div class="hud-item">
+      <span class="hud-label">SCORE</span>
+      <span id="hudScore" class="hud-value">0</span>
+    </div>
+    <div class="hud-item">
+      <span class="hud-label">THRUST</span>
+      <div class="thrust-gauge">
+        <div id="thrustFill" class="thrust-fill"></div>
+        <span id="hudThrust" class="thrust-text">1.0x</span>
+      </div>
+    </div>
+    <div class="hud-item hud-lives">
+      <span class="hud-label">LIVES</span>
+      <span id="hudLives" class="hud-value">❤️ ❤️ ❤️</span>
+    </div>
+    <div class="hud-item">
+      <span class="hud-label">MULTIPLIER</span>
+      <span id="hudMultiplier" class="hud-value">x1.0</span>
+    </div>
+    <button id="muteBtn" class="btn-mute" title="Mute / Unmute (M)">🔊</button>
+  </div>
+
+  <!-- ═══════════ GAME OVER ═══════════ -->
+  <div id="gameOverScreen" class="overlay hidden">
+    <div class="overlay-content gameover-content">
+      <h1 class="gameover-title">MISSION FAILED</h1>
+      <div class="stats-grid">
+        <div class="stat">
+          <span class="stat-label">Distance Traveled</span>
+          <span id="goDistance" class="stat-value">0 km</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Asteroids Dodged</span>
+          <span id="goAsteroids" class="stat-value">0</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Final Score</span>
+          <span id="goScore" class="stat-value">0</span>
+        </div>
+      </div>
+      <button id="retryBtn" class="btn btn-retry">🔄 TRY AGAIN</button>
+    </div>
+  </div>
+
+  <!-- ═══════════ VICTORY ═══════════ -->
+  <div id="victoryScreen" class="overlay hidden">
+    <div class="overlay-content victory-content">
+      <h1 class="victory-title">MISSION COMPLETE! 🚀</h1>
+      <p class="victory-sub">Asteroid made it to Mars!</p>
+      <div class="stats-grid">
+        <div class="stat">
+          <span class="stat-label">Total Score</span>
+          <span id="vicScore" class="stat-value">0</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Time Survived</span>
+          <span id="vicTime" class="stat-value">0s</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Asteroids Dodged</span>
+          <span id="vicAsteroids" class="stat-value">0</span>
+        </div>
+      </div>
+      <button id="replayBtn" class="btn btn-replay">🚀 PLAY AGAIN</button>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
